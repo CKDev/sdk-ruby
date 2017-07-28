@@ -211,3 +211,17 @@ describe AuthorizeNet::EmailReceipt do
     hash.should == {:header => '123'}
   end
 end
+
+describe AuthorizeNet::TypeConversions do
+  subject do
+    Object.new.extend(described_class)
+  end
+
+  it 'should convert decimal strings' do
+    subject.value_to_decimal('1.2345').should == BigDecimal.new('1.2345')
+  end
+
+  it 'should convert empty decimal strings' do
+    subject.value_to_decimal('').should == BigDecimal.new('0.0')
+  end
+end
