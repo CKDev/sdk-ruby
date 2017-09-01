@@ -59,12 +59,12 @@ module AuthorizeNet
         nil,
         nil,
         nil,
-        nil,
         :account_number,
         :card_type,
         :split_tender_id,
         :requested,
         :balance_on_card,
+        nil,
         nil,
         nil,
         nil,
@@ -225,6 +225,10 @@ module AuthorizeNet
           {:state => :ship_to_state},
           {:zip => :ship_to_zip},
           {:country => :ship_to_country}
+        ]},
+        {:profile => [
+          {:customerProfileId => :customer_profile_id},
+          {:customerPaymentProfileId => :customer_payment_profile_id},
         ]}
       ]}
       
