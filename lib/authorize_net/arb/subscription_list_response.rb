@@ -8,7 +8,7 @@ module AuthorizeNet::ARB
       super
       unless connection_failure?
         begin
-	  @subscription_details = @root.at_css('subscriptionDetails')
+	        @subscription_details = @root.at_css('subscriptionDetails')
           @subscription_detail = @root.at_css('subscriptionDetail')
           @total_num_in_resultset = node_content_unless_nil(@root.at_css('totalNumInResultSet'))
 
@@ -29,7 +29,7 @@ module AuthorizeNet::ARB
           subscription_details = []
           @subscription_details.element_children.each do |child|
             unless child.nil?
-              subscription_detail = build_entity(child, Fields::SUBSCRIPTION_DETAIL_ENTITY_DESCRIPTION)
+              subscription_detail = build_entity(child, AuthorizeNet::ARB::Fields::SUBSCRIPTION_DETAIL_ENTITY_DESCRIPTION)
             
               subscription_details <<= subscription_detail
             end

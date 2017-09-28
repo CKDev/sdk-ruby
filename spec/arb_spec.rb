@@ -177,6 +177,16 @@ describe AuthorizeNet::ARB::Transaction do
     response = transaction.get_subscription_list(:subscriptionActive,sorting,paging)
     response.success?.should be_falsey
   end
+
+  it "should be able to retrieve details of a subscription" do
+    create = AuthorizeNet::ARB::Transaction.new(@api_login, @api_key, :gateway => :sandbox)
+    response = create.create(@subscription)
+    response.success?.should be_truthy
+    transaction = AuthorizeNet::ARB::Transaction.new(@api_login, @api_key, :gateway => :sandbox)
+    details = transaction.get_subscription_details(response.subscription_id)
+    details.success?.should be_truthy
+    details.subscription.should be_instance_of(AuthorizeNet::ARB::SubscriptionDetail)
+  end
 end
 
 describe AuthorizeNet::ARB::Response do

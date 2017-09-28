@@ -5,9 +5,10 @@ module AuthorizeNet::ARB
     
     include AuthorizeNet::Model
     
-    attr_accessor :id, :name, :status, :create_time_stamp_utc, :first_name,
+    attr_accessor :id, :name, :status, :amount, :trial_amount, :create_time_stamp_utc, :first_name,
                   :last_name, :total_occurrences, :past_occurrences,
-                  :payment_method, :account_number, :invoice, :amount, :currency_id
+                  :payment_method, :account_number, :invoice, :amount, :currency_id,
+                  :payment_schedule, :cust_profile, :invoice_num, :description
       
   end
 

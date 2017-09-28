@@ -76,7 +76,6 @@ module AuthorizeNet
         nil,
         nil,
         nil,
-        nil,
         nil # Merchant defined fields come after this field (68)
       ]
       
@@ -272,13 +271,19 @@ module AuthorizeNet
           ]
         }
       ]
+
+      GET_SUBSCRIPTION_FIELDS = [
+        {:refId => :reference_id},
+        {:subscriptionId => :subscription_id}
+      ]
       
       FIELDS = {
         AuthorizeNet::XmlTransaction::Type::ARB_CREATE => CREATE_FIELDS,
         AuthorizeNet::XmlTransaction::Type::ARB_UPDATE => UPDATE_FIELDS,
         AuthorizeNet::XmlTransaction::Type::ARB_GET_STATUS => GET_STATUS_FIELDS,
         AuthorizeNet::XmlTransaction::Type::ARB_CANCEL => CANCEL_FIELDS,
-        AuthorizeNet::XmlTransaction::Type::ARB_GET_SUBSCRIPTION_LIST => GET_SUBSCRIPTION_LIST_FIELDS
+        AuthorizeNet::XmlTransaction::Type::ARB_GET_SUBSCRIPTION_LIST => GET_SUBSCRIPTION_LIST_FIELDS,
+        AuthorizeNet::XmlTransaction::Type::ARB_GET_SUBSCRIPTION => GET_SUBSCRIPTION_FIELDS
       }
 
     end
@@ -564,7 +569,7 @@ module AuthorizeNet
         AuthorizeNet::XmlTransaction::Type::CIM_UPDATE_PAYMENT => UPDATE_PAYMENT_FIELDS,
         AuthorizeNet::XmlTransaction::Type::CIM_UPDATE_ADDRESS => UPDATE_ADDRESS_FIELDS,
         AuthorizeNet::XmlTransaction::Type::CIM_UPDATE_SPLIT => UPDATE_SPLIT_FIELDS,
-        AuthorizeNet::XmlTransaction::Type::CIM_VALIDATE_PAYMENT => VALIDATE_PAYMENT_FIELDS
+        AuthorizeNet::XmlTransaction::Type::CIM_VALIDATE_PAYMENT => VALIDATE_PAYMENT_FIELDS,
       }
       
       ADDRESS_ENTITY_DESCRIPTION = EntityDescription.new(

@@ -64,6 +64,7 @@ module AuthorizeNet::ARB
     #   response = transaction.create(subscription)
     #
     def create(subscription)
+      self.class.instance_variable_set(:@response_class,AuthorizeNet::ARB::Response)
       @type = Type::ARB_CREATE
       set_fields(subscription.to_hash)
       run
@@ -84,6 +85,7 @@ module AuthorizeNet::ARB
     #   response = transaction.update(subscription)
     #
     def update(subscription)
+      self.class.instance_variable_set(:@response_class,AuthorizeNet::ARB::Response)
       @type = Type::ARB_UPDATE
       set_fields(subscription.to_hash)
       run
@@ -101,6 +103,7 @@ module AuthorizeNet::ARB
     #   response.subscription_status    # A value from AuthorizeNet::ARB::Subscription::Status
     #
     def get_status(subscription_id)
+      self.class.instance_variable_set(:@response_class,AuthorizeNet::ARB::Response)
       @type = Type::ARB_GET_STATUS
       handle_subscription_id(subscription_id)
       run
@@ -137,6 +140,16 @@ module AuthorizeNet::ARB
       end
       return response
     end
+
+    def get_subscription_details(subscription_id)
+      unless subscription_id.nil?
+        self.class.instance_variable_set(:@response_class,SubscriptionInfo)
+        @type = Type::ARB_GET_SUBSCRIPTION
+        set_fields(:subscription_id => subscription_id) 
+        run
+      end
+      return response
+    end
       
     # Sets up and submits a subscription cancelation (ARBCancelSubscriptionRequest) transaction. Returns a response object. If the transaction
     # has already been run, it will return nil.
@@ -149,6 +162,7 @@ module AuthorizeNet::ARB
     #   response = transaction.cancel('123456')
     #
     def cancel(subscription_id)
+      self.class.instance_variable_set(:@response_class,AuthorizeNet::ARB::Response)
       @type = Type::ARB_CANCEL
       handle_subscription_id(subscription_id)
       run

@@ -19,6 +19,7 @@ module AuthorizeNet
       ARB_GET_STATUS = "ARBGetSubscriptionStatusRequest"
       ARB_CANCEL = "ARBCancelSubscriptionRequest"
       ARB_GET_SUBSCRIPTION_LIST = "ARBGetSubscriptionListRequest"
+      ARB_GET_SUBSCRIPTION = "ARBGetSubscriptionRequest"
       CIM_CREATE_PROFILE = "createCustomerProfileRequest"
       CIM_CREATE_PAYMENT = "createCustomerPaymentProfileRequest"
       CIM_CREATE_ADDRESS = "createCustomerShippingAddressRequest"
@@ -287,6 +288,7 @@ module AuthorizeNet
       end
       
       # Use our Class's @response_class variable to find the Response class we are supposed to use.
+
       begin
         @response = self.class.instance_variable_get(:@response_class).new((connection.start {|http| http.request(request)}), self)
       rescue

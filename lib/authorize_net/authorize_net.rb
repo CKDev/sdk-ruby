@@ -35,8 +35,8 @@ module AuthorizeNet
     
     # Coverts a value received from Authorize.Net into a BigDecimal.
     def value_to_decimal(value)
-      value = 0 if value == ''
-      BigDecimal.new(value)
+      value = BigDecimal.new(0, 2) if value == ''
+      BigDecimal.new(value, 2) rescue BigDecimal.new(0, 2)
     end
     
     # Converts a BigDecimal (or Float) into an Authorize.Net float value string. If float isn't

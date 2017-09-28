@@ -115,7 +115,7 @@ module AuthorizeNet
         node_name = (node_desc.keys.reject {|k| k.to_s[0..0] == '_' }).first
         args.merge!(handle_node_type(xml, node_desc, node_name, args, ''))
       end
-      
+
       if args.length == 0
         return nil
       end
