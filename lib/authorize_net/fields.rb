@@ -490,7 +490,8 @@ module AuthorizeNet
       
       GET_PAYMENT_FIELDS = [
         CUSTOMER_PROFILE_ID_FIELDS,
-        CUSTOMER_PAYMENT_PROFILE_ID_FIELDS
+        CUSTOMER_PAYMENT_PROFILE_ID_FIELDS,
+        {:unmaskExpirationDate => :unmask_expiration_date}
       ]
       
       GET_ADDRESS_FIELDS = [

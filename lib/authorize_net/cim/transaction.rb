@@ -223,6 +223,7 @@ module AuthorizeNet::CIM
       @type = Type::CIM_GET_PAYMENT
       handle_payment_profile_id(payment_profile_id)
       handle_profile_id(profile_id)
+      set_fields(:unmask_expiration_date => true)
       make_request
     end
     
