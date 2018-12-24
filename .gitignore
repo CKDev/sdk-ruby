@@ -1,4 +1,5 @@
 Gemfile.lock
-spec/credentials.yml
 .ruby-*
 .idea
+gemfiles/*.lock
+/coverage/

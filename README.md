@@ -1,13 +1,15 @@
-# Authorize.Net Ruby SDK
+﻿# Authorize.Net Ruby SDK
 
-[![Build Status](https://travis-ci.org/AuthorizeNet/sdk-ruby.png?branch=master)](https://travis-ci.org/AuthorizeNet/sdk-ruby)
-[![Coverage Status](https://coveralls.io/repos/AuthorizeNet/sdk-ruby/badge.svg?branch=master&service=github)](https://coveralls.io/github/AuthorizeNet/sdk-ruby?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AuthorizeNet/sdk-ruby/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AuthorizeNet/sdk-ruby/?branch=master)
-[![Gem Version](https://img.shields.io/gem/v/authorizenet.svg)](https://rubygems.org/gems/authorizenet)
+[![Version         ][rubygems_badge]][rubygems]
+[![Travis CI       ][travis_badge]][travis]
+[![Coverage        ][coverage_badge]][coverage]
+[![Scrutinizer     ][scrutinizer_badge]][scrutinizer]
 
+Starting Release 1.8.6 November 2015 the Authorize.Net API has been [reorganized to be more merchant focused](https://developer.authorize.net/api/upgrade_guide/).
+AIM, ARB, CIM, Reporting and SIM have all been deprecated in favor of sdk-ruby/lib/authorize_net/api.
 
 ## Requirements
-* Ruby 2.1.0 or higher
+* Ruby 2.2.2 or higher
 * RubyGem 1.3.7 or higher (to build the gem)
 * RDoc 1.0 or higher (to build documentation)
 * Rake 0.8.7 or higher (to use the rake tasks)
@@ -15,6 +17,13 @@
 * RSpec 2.1 or higher (to run rspec tests)
 * An Authorize.Net account (see _Registration & Configuration_ section below)
 
+### Migrating from older versions  
+ Since August 2018, the Authorize.Net API has been reorganized to be more merchant focused. AuthorizeNetAIM, AuthorizeNetARB, AuthorizeNetCIM, Reporting and AuthorizeNetSIM classes have all been deprecated in favor of AuthorizeNet::API. To see the full list of mapping of new features corresponding to the deprecated features, you can see [MIGRATING.md](MIGRATING.md).  
+
+### Contribution  
+  - If you need information or clarification about any Authorize.Net features, please create an issue for it. Also you can search in the [Authorize.Net developer community](https://community.developer.authorize.net/).  
+  - Before creating pull requests, please read [the contributors guide](CONTRIBUTING.md).
+  
 ### TLS 1.2
 The Authorize.Net APIs only support connections using the TLS 1.2 security protocol. It's important to make sure you have new enough versions of all required components to support TLS 1.2. Additionally, it's very important to keep these components up to date going forward to mitigate the risk of any security flaws that may be discovered in your system or any libraries it uses.
 
@@ -79,6 +88,23 @@ Additionally, you can find details and examples of how our API is structured in 
 
 The API Reference Guide provides examples of what information is needed for a particular request and how that information would be formatted. Using those examples, you can easily determine what methods would be necessary to include that information in a request using this SDK.
 
+## Create a Chase Pay Transaction
+
+Use this method to authorize and capture a payment using a tokenized credit card number issued by Chase Pay. Chase Pay transactions are only available to merchants using the Paymentech processor.
+
+The following information is required in the request:
+- The **payment token**,
+- The **expiration date**,
+- The **cryptogram** received from the token provider,
+- The **tokenRequestorName**,
+- The **tokenRequestorId**, and
+- The **tokenRequestorEci**.
+
+When using the SDK to submit Chase Pay transactions, consider the following points:
+- `tokenRequesterName` must be populated with **`”CHASE_PAY”`**
+- `tokenRequestorId` must be populated with the **`Token Requestor ID`** provided by Chase Pay services for each transaction during consumer checkout
+- `tokenRequesterEci` must be populated with the **`ECI Indicator`** provided by Chase Pay services for each transaction during consumer checkout  
+
 
 ## Building & Testing the SDK
 
@@ -106,6 +132,37 @@ md5_value: {md5_value}
 ### Testing Guide
 For additional help in testing your own code, Authorize.Net maintains a [comprehensive testing guide](http://developer.authorize.net/hello_world/testing_guide/) that includes test credit card numbers to use and special triggers to generate certain responses from the sandbox environment.
 
+## Logging Sensitive Data
+A new sensitive data logger has been introduced with the Authorize.Net Ruby Sdk. To use it in your code, create a file called `LogConfig.yml` and place it in the base folder of your application. The logger configuration should contain the following lines:
+```
+loglevel: info
+filepath: <file_path>
+maskSensitiveData: true
+```
+The logger code uses the default Ruby `Logger` library. So there is no need to install any external libraries for the purpose of logging. All the above three fields in the LogConfig.yml file are mandatory. The logging levels available are `debug, info, warn` and `error`.
+
+The value for `maskSensitiveData` can either be **true** or **false**. Setting the `maskSensitiveData` flag to **true** masks the sensitive data in the request XML body while logging to the log file. You can turn off logging by removing the configuration file from your application folder. 
+
+The list of sensitive fields which will be masked during logging are
+* Card Number, 
+* Card Code, 
+* Expiration Date, 
+* Name on Account, 
+* Transaction Key and 
+* Account Number. 
+
+There is also a list of regular expressions which the sensitive logger uses to mask credit card numbers while logging. 
+
+Further information on the sensitive data logging and regular expressions can be found at this [location](https://github.com/AuthorizeNet/sdk-ruby/blob/master/lib/authorize_net/api/SensitiveDataFilter.rb).
 
 ## License
 This repository is distributed under a proprietary license. See the provided [`LICENSE.txt`](/LICENSE.txt) file.
+
+[rubygems_badge]: https://badge.fury.io/rb/authorizenet.svg
+[rubygems]: https://rubygems.org/gems/authorizenet
+[travis_badge]: https://travis-ci.org/AuthorizeNet/sdk-ruby.svg?branch=master
+[travis]: https://travis-ci.org/AuthorizeNet/sdk-ruby
+[coverage_badge]: https://scrutinizer-ci.com/g/AuthorizeNet/sdk-ruby/badges/coverage.png?b=master
+[coverage]: https://scrutinizer-ci.com/g/AuthorizeNet/sdk-ruby/?branch=master
+[scrutinizer_badge]: https://scrutinizer-ci.com/g/AuthorizeNet/sdk-ruby/badges/quality-score.png?b=master
+[scrutinizer]: https://scrutinizer-ci.com/g/AuthorizeNet/sdk-ruby/?branch=master
